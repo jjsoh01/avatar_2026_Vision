@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:macro name="follower_system" params="name prefix port_name:=^|/dev/ttyACM0 use_sim:=^|false use_mock_hardware:=^|false mock_sensor_commands:=^|false">
-    <ros2_control name="${name}" type="system" is_async="true">
+  <xacro:macro name="leader_system" params="name prefix port_name:=^|/dev/ttyACM0 use_sim:=^|false use_mock_hardware:=^|false mock_sensor_commands:=^|false">
+    <ros2_control name="${name}" type="system">
       <xacro:if value="$(arg use_sim)">
         <hardware>
           <plugin>gz_ros2_control/GazeboSimSystem</plugin>
         </hardware>
       </xacro:if>
-
+      
       <xacro:unless value="$(arg use_sim)">
         <hardware>
           <xacro:if value="${use_mock_hardware}">
@@ -27,7 +27,6 @@
 
             <param name="number_of_joints">2</param>
             <param name="number_of_transmissions">2</param>
-            <!-- 필수: transmission <-> joint 변환 매트릭스 (2축, 1:1 항등) -->
             <param name="transmission_to_joint_matrix">
                 1, 0,
                 0, 1
@@ -48,58 +47,40 @@
         </hardware>
       </xacro:unless>
 
-      <!-- joint 2개만: joint에 ID 매핑을 넣어줌(가장 일반적인 방식) -->
       <joint name="${prefix}joint1">
-        <command_interface name="position"/>
         <state_interface name="position"/>
         <state_interface name="velocity"/>
-        <param name="ID">11</param>
+        <param name="ID">1</param>
       </joint>
-
       <joint name="${prefix}joint2">
-        <command_interface name="position"/>
         <state_interface name="position"/>
         <state_interface name="velocity"/>
-        <param name="ID">12</param>
+        <param name="ID">2</param>
       </joint>
 
-      <!-- gpio: ID 11, 12 유지 -->
-      <gpio name="dxl11">
+      <gpio name="dxl1">
         <param name="type">dxl</param>
-        <param name="ID">11</param>
-        <command_interface name="Goal Position"/>
+        <param name="ID">1</param>
+        <!-- <command_interface name="Goal Current"/> -->
         <state_interface name="Present Position"/>
         <state_interface name="Present Velocity"/>
-        <param name="Drive Mode">4</param>
-        <param name="Operating Mode">4</param>
+        <!-- <state_interface name="Present Current"/> -->
+        <param name="Torque Enable">0</param>
+        <param name="Drive Mode">0</param>
+        <param name="Operating Mode">0</param>
         <param name="Return Delay Time">0</param>
-        <param name="Min Position Limit">1024</param>
-        <param name="Max Position Limit">3140</param>
-        <param name="Position P Gain">1000</param>
-        <param name="Position I Gain">0</param>
-        <param name="Position D Gain">1000</param>
-        <param name="Profile Velocity">50</param>
-        <param name="Profile Acceleration">25</param>
       </gpio>
-
-      <gpio name="dxl12">
+      <gpio name="dxl2">
         <param name="type">dxl</param>
-        <param name="ID">12</param>
-        <command_interface name="Goal Position"/>
+        <param name="ID">2</param>
+        <!-- <command_interface name="Goal Current"/> -->
         <state_interface name="Present Position"/>
         <state_interface name="Present Velocity"/>
-        <param name="Drive Mode">4</param>
-        <param name="Operating Mode">4</param>
+        <!-- <state_interface name="Present Current"/> -->
+        <param name="Torque Enable">0</param>
+        <param name="Drive Mode">0</param>
+        <param name="Operating Mode">0</param>
         <param name="Return Delay Time">0</param>
-        <param name="Min Position Limit">1024</param>
-        <param name="Max Position Limit">3140</param>
-        <param name="Min Position Limit">830</param>
-        <param name="Max Position Limit">3129</param>
-        <param name="Position P Gain">1000</param>
-        <param name="Position I Gain">0</param>
-        <param name="Position D Gain">1000</param>
-        <param name="Profile Velocity">50</param>
-        <param name="Profile Acceleration">25</param>
       </gpio>
 
     </ros2_control>
