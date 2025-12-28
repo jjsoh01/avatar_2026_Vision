@@ -115,7 +115,6 @@ def generate_launch_description():
         port_name,
     ])
 
-    # 핵심: robot_description을 문자열로 강제
     robot_description = ParameterValue(urdf_file, value_type=str)
 
     # Paths for configuration files
