@@ -1,6 +1,9 @@
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image
+# 압축해서 보내기 위해
+from sensor_msgs.msg import CompressedImage
+
 
 # OpenCV 이미지 <-> ROS Image 변환을 위해.
 from cv_bridge import CvBridge 
@@ -89,8 +92,8 @@ class RealSenseRGBPublisher(Node):
         super().__init__('realsense_rgb_publisher') # 노드 이름
 
         self.publisher = self.create_publisher(
-            Image,
-            '/realsense/color/image_raw',
+            CompressedImage,
+            '/realsense/color/image_raw/compressed',
             10
         )
 
@@ -117,9 +120,16 @@ class RealSenseRGBPublisher(Node):
         if not ret:
             return
 
-        msg = self.bridge.cv2_to_imgmsg(frame, encoding='bgr8') # 8비트의 Ros Image로 변환
+        encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 70]
+        success, encoded_image = cv2.imencode('.jpg', frame, encode_param)
+        if not success:
+            return
+
+        msg = CompressedImage()
         msg.header.stamp = self.get_clock().now().to_msg() # 타임 스탬프 찍고
         msg.header.frame_id = 'realsense_color_frame' # 이름 설정
+        msg.format = 'jpeg'
+        msg.data = encoded_image.tobytes()
 
         self.publisher.publish(msg) # 메시지 발행
 
