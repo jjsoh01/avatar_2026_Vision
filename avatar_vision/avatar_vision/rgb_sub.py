@@ -34,7 +34,7 @@ class RealSenseRGBSubscriber(Node):
         frame = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 
 
-        # 영상 화면 띄우기  **(수정) 
+        # 영상 화면 띄우기  **(수정)   
         cv2.imshow("Compressed Image", frame)
         cv2.waitKey(1)
 
