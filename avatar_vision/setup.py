@@ -26,6 +26,7 @@ setup(
         'console_scripts': [
             'rgb_subscriber = avatar_vision.rgb_sub:main',
             'realsense_rgb_publisher = avatar_vision.camera_test:main',
+            'webcam_publisher = avatar_vision.camera_test_webcam:main'
         ],
     },
 )
