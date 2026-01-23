@@ -1,46 +1,60 @@
 import rclpy
 from rclpy.node import Node
-from sensor_msgs.msg import CompressedImage # 메시지 타입 변경
+from sensor_msgs.msg import CompressedImage  #수정1
+import numpy as np  #수정2
 import cv2
-import numpy as np
 
-class RealSenseCompressedSubscriber(Node):
+
+# Subscriber 노드 생성
+class RealSenseRGBSubscriber(Node):
     def __init__(self):
         super().__init__('realsense_rgb_subscriber')
 
+        #수정3: CvBridge는 제거했습니다 (직접 디코딩)
+        
+        #수정4: 토픽 이름 & 메시지 타입 변경하기
         self.subscription = self.create_subscription(
-            CompressedImage, # 타입 변경
-            '/realsense/color/image_raw/compressed', # 토픽 이름 일치
+            CompressedImage,
+            '/realsense/color/image_raw/compressed',
             self.callback,
             10
         )
-        self.get_logger().info('Subscribed to Compressed Image')
 
+        self.get_logger().info(
+            'Subscribed to /realsense/color/image_raw/compressed'
+        )
+
+# 구독시 할 일
     def callback(self, msg):
-        # 1. 압축된 바이트 데이터를 numpy 배열로 변환
+        #수정5: 압축 해제랑 디코딩
+        #msg.data를 numpy 배열로 바꾸기
         np_arr = np.frombuffer(msg.data, np.uint8)
-        
-        # 2. OpenCV를 이용해 JPEG 압축 해제 (디코딩)
+
+        #OpenCV를 통해 JPEG 압축 해제, 디코딩
         frame = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 
+        # 영상 화면 띄우기
         if frame is not None:
-            # 영상 화면 띄우기
-            cv2.imshow('Remote View (Compressed)', frame)
+            cv2.imshow('Realsense RGB Compressed (Subscriber)', frame)
             cv2.waitKey(1)
         else:
-            self.get_logger().warning('Failed to decode image')
+            self.get_logger().error(f"에러 발생: {e}")
+
 
 def main(args=None):
     rclpy.init(args=args)
-    node = RealSenseCompressedSubscriber()
+    node = RealSenseRGBSubscriber()
+    
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:
         pass
     finally:
         node.destroy_node()
-        rclpy.shutdown()
         cv2.destroyAllWindows()
+        rclpy.shutdown()
+
 
 if __name__ == '__main__':
     main()
+    
