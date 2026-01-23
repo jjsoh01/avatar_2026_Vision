@@ -15,7 +15,7 @@ import numpy as np
 #Intel RealSense SDK(Python)
 import pyrealsense2 as rs
 
-
+# RealSense를 일반 카메라처럼 쓰게 해줌
 class realsense_camera:
     is_opened = False
     config = None
@@ -37,6 +37,10 @@ class realsense_camera:
             device = pipeline_profile.get_device() # RealSense 카메라에서 객체 가져오기
 
             found_rgb = False
+            
+            # RGB 센서 존재 여부 검사
+            # device.sensors를 돌면서 'RGB Camera'가 있는지 확인
+            # 없으면 self.use_color = False로 꺼버림
             for s in device.sensors:
                 if s.get_info(rs.camera_info.name) == 'RGB Camera':
                     found_rgb = True
@@ -70,6 +74,7 @@ class realsense_camera:
     def isOpened(self):
         return self.is_opened
 
+    # 프레임을 1장 받아서 numpy 이미지로 반환
     def read(self):
         try:
             frames = self.pipeline.wait_for_frames(100)
@@ -92,12 +97,11 @@ class RealSenseRGBPublisher(Node):
         super().__init__('realsense_rgb_publisher') # 노드 이름
 
         self.publisher = self.create_publisher(
-            CompressedImage,
-            '/realsense/color/image_raw/compressed',
+            CompressedImage, # 메시지 자료형
+            '/realsense/color/image_raw/compressed', # 토픽 이름
             10
         )
 
-        self.bridge = CvBridge() # OpenCV -> ROS Image로 바꾸려고
 
         self.cam = realsense_camera(
             width=640,
@@ -149,3 +153,4 @@ def main(args=None):
 
 if __name__ == '__main__':
     main()
+
