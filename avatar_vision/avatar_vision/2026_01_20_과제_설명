@@ -1,0 +1,34 @@
+
+사용자의 눈동자 움직임을 실시간으로 추적하여 로봇의 목 관절 제어 데이터를 생성
+
+제 노트북이 최신이라(?) 우분투에서 내장캠 인식을 못해서 별도로 droidcam을 활용하여 폰/테블릿 카메라를 이용합니다..
+
+[구조]
+
+    Publisher: droidcam_publisher ---> droidcam_pub.py
+
+        OpenCV로 영상을 읽어 MediaPipe Face Mesh(Iris)로 전달
+
+        양쪽 눈동자(Landmark 468, 473)의 중심 좌표 계산
+
+        좌표 정규화(−0.5∼0.5) 후 Point 메시지 발행
+
+    Topic: /gaze_point (geometry_msgs/msg/Point)
+
+    Subscriber: gaze_subscriber ---> gaze_sub.py
+
+        발행된 좌표 데이터를 수신
+
+
+[실행]
+
+    터미널 1 - Publisher (droidcam_pub.py)
+    터미널 2 - rqt_image_view (ros2 run rqt_image_view rqt_image_view)
+    터미널 3 - Subscriber (gaze_sub.py)
+
+
+###실행사진 참고###
+
+
+
+    ** 의존성 충돌: NumPy 호환성 문제 ---> gemini/gpt와 함께 해결...
