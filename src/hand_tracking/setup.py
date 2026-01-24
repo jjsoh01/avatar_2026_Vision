@@ -25,6 +25,7 @@ setup(
     entry_points={
         'console_scripts': [
             'hand_node = hand_tracking.hand_node:main',
+            'hand_sub_node = hand_tracking.hand_sub_node:main',
         ],
     },
 )
