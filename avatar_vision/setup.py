@@ -24,8 +24,11 @@ setup(
     },
     entry_points={
         'console_scripts': [
+            'braille_reader = avatar_vision.braille_node:main',
+            'braille_listener = avatar_vision.braille_listener:main',
             'rgb_subscriber = avatar_vision.rgb_sub:main',
             'realsense_rgb_publisher = avatar_vision.camera_test:main',
+            'webcam_publisher = avatar_vision.webcam_publisher:main',
         ],
     },
 )
