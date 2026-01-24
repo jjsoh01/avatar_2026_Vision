@@ -26,7 +26,11 @@ setup(
         'console_scripts': [
             'rgb_subscriber = avatar_vision.rgb_sub:main',
             'realsense_rgb_publisher = avatar_vision.camera_test:main',
-            'webcam_publisher = avatar_vision.camera_test_webcam:main'
+            'webcam_publisher = avatar_vision.camera_test_webcam:main',
+            'hand_tracking_node = avatar_vision.hand_node:main',
+            'yolo_node = avatar_vision.yolo_node:main',
+            'droidcam_publisher = my_camera_package.droidcam_pub:main',
+            'gaze_subscriber = my_camera_package.gaze_sub:main',
         ],
     },
 )
