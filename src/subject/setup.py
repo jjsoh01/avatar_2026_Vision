@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-package_name = 'hand_tracking'
+package_name = 'subject'
 
 setup(
     name=package_name,
@@ -24,8 +24,13 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'hand_node = hand_tracking.hand_node:main',
-            'hand_sub_node = hand_tracking.hand_sub_node:main',
+            # 얼굴 트래킹 관련 노드
+            'face_node = subject.face.FaceGaze_node:main',
+            'face_sub_node = subject.face.FaceGaze_sub_node:main',
+            
+            # 손 트래킹 관련 노드
+            'hand_node = subject.hand.hand_node:main',
+            'hand_sub_node = subject.hand.hand_sub_node:main',
         ],
     },
 )
