@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:macro name="follower" params="prefix">
+    <!-- <xacro:property name="pi" value="3.1415926535" /> -->
 
-    <!-- <xacro:property name="meshes_file_direction" value="package://avatar_description/meshes/follower/" /> -->
+    <xacro:property name="robot_thickness" value="0.08" />
+    <xacro:property name="body_height" value="0.5" />
+    <xacro:property name="body_width" value="0.4" />
+    <xacro:property name="arm1_height" value="0.15"/>
+    <xacro:property name="arm2_height" value="0.10"/>
+    <xacro:property name="gripper_height" value="0.05"/>
 
     <!-- link0 -->
     <link name="${prefix}link0" >
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="0 0 ${body_height/2}" rpy="0 0 0" />
         <geometry>
+          <box size="${body_width} ${robot_thickness} ${body_height}" />
           <!-- <mesh filename="${meshes_file_direction}/follower_01_base.stl" scale="0.001 0.001 0.001" /> -->
         </geometry>
         <material name="grey">
@@ -16,13 +23,10 @@
         </material>
       </visual>
       <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="0 0 ${body_height/2}" rpy="0 0 0" />
         <geometry>
-          <!-- <mesh filename="${meshes_file_direction}/follower_01_base.stl" scale="0.001 0.001 0.001" /> -->
+          <box size="${body_width} ${robot_thickness} ${body_height}" />
         </geometry>
-        <material name="grey">
-          <color rgba="0.2 0.2 0.2 1" />
-        </material>
       </collision>
       <inertial>
         <origin xyz="0 0 0" />
@@ -30,36 +34,33 @@
         <inertia ixx="1e-4" ixy="0" ixz="0" iyy="1e-4" iyz="0" izz="1e-4" />
       </inertial>
     </link>
-
+    <!-- right arm -->
     <!-- joint1 -->
-    <joint name="${prefix}joint1" type="revolute">
+    <joint name="${prefix}right_joint1" type="revolute">
       <parent link="${prefix}link0" />
-      <child link="${prefix}link1" />
-      <origin xyz="0 0 0.02" rpy="0 0 0" />
-      <axis xyz="0 0 1" />
-      <limit velocity="4.8" effort="1000" lower="${-pi*2.0}" upper="${pi*2.0}" />
+      <child link="${prefix}right_link1" />
+      <origin xyz="${body_width/2} 0 ${body_height - robot_thickness/2}" rpy="0 0 0" />
+      <axis xyz="1 0 0" />
+      <limit velocity="4.8" effort="1000" lower="${-pi}" upper="${pi}" />
       <dynamics damping="0.05" />
     </joint>
 
     <!-- link1 -->
-    <link name="${prefix}link1" >
+    <link name="${prefix}right_link1" >
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="${robot_thickness/2} 0 0" rpy="${pi/2} 0 0" />
         <geometry>
-          <!-- <mesh filename="${meshes_file_direction}/follower_02_link1.stl" scale="0.001 0.001 0.001" /> -->
+          <cylinder radius="${robot_thickness/2}" length="${robot_thickness}"/>
         </geometry>
         <material name="grey">
           <color rgba="0.2 0.2 0.2 1" />
         </material>
       </visual>
       <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="${robot_thickness/2} 0 0" rpy="${pi/2} 0 0" />
         <geometry>
-          <!-- <mesh filename="${meshes_file_direction}/follower_02_link1.stl" scale="0.001 0.001 0.001" /> -->
+          <cylinder radius="${robot_thickness/2}" length="${robot_thickness}"/>
         </geometry>
-        <material name="grey">
-          <color rgba="0.2 0.2 0.2 1" />
-        </material>
       </collision>
       <inertial>
         <origin xyz="0 0 0.05" />
@@ -69,34 +70,31 @@
     </link>
 
     <!-- joint2 -->
-    <joint name="${prefix}joint2" type="revolute">
-      <parent link="${prefix}link1" />
-      <child link="${prefix}link2" />
-      <origin xyz="0 0 0.10" rpy="0 0 0" />
+    <joint name="${prefix}right_joint2" type="revolute">
+      <parent link="${prefix}right_link1" />
+      <child link="${prefix}right_link2" />
+      <origin xyz="${robot_thickness/2} 0 0" rpy="0 0 0" />
       <axis xyz="0 1 0" />
-      <limit velocity="4.8" effort="1000" lower="${-pi*2.0}" upper="${pi*2.0}" />
+      <limit velocity="4.8" effort="1000" lower="${-pi}" upper="${pi/2}" />
       <dynamics damping="0.1" />
     </joint>
 
     <!-- link2 -->
-    <link name="${prefix}link2" >
+    <link name="${prefix}right_link2" >
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="0 0 ${-robot_thickness/2 - arm1_height/2}" rpy="0 0 0" />
         <geometry>
-          <!-- <mesh filename="${meshes_file_direction}/follower_03_link2.stl" scale="0.001 0.001 0.001" /> -->
+          <box size="${robot_thickness} ${robot_thickness} ${arm1_height}" />
         </geometry>
         <material name="grey">
           <color rgba="0.2 0.2 0.2 1" />
         </material>
       </visual>
       <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="0 0 ${-robot_thickness/2 - arm1_height/2}" rpy="0 0 0" />
         <geometry>
-          <!-- <mesh filename="${meshes_file_direction}/follower_03_link2.stl" scale="0.001 0.001 0.001" /> -->
+          <box size="${robot_thickness} ${robot_thickness} ${arm1_height}" />
         </geometry>
-        <material name="grey">
-          <color rgba="0.2 0.2 0.2 1" />
-        </material>
       </collision>
       <inertial>
         <origin xyz="0 0 0.05" />
@@ -104,6 +102,417 @@
         <inertia ixx="4e-5" ixy="0" ixz="0" iyy="4e-5" iyz="0" izz="8e-6" />
       </inertial>
     </link>
+
+    <!-- joint3 -->
+    <joint name="${prefix}right_joint3" type="revolute">
+      <parent link="${prefix}right_link2" />
+      <child link="${prefix}right_link3" />
+      <origin xyz="0 0 ${-arm1_height - robot_thickness/2}" rpy="0 0 0" />
+      <axis xyz="0 0 -1" />
+      <limit velocity="4.8" effort="1000" lower="${-pi/2}" upper="${pi/2}" />
+      <dynamics damping="0.1" />
+    </joint>
+
+    <!-- link3 -->
+    <link name="${prefix}right_link3" >
+      <visual>
+        <origin xyz="0 0 ${-robot_thickness/2}" rpy="${pi/2} 0 ${pi/2}" />
+        <geometry>
+          <cylinder radius="${robot_thickness/2}" length="${robot_thickness}"/>
+        </geometry>
+        <material name="grey">
+          <color rgba="0.2 0.2 0.2 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 ${-robot_thickness/2}" rpy="${pi/2} 0 ${pi/2}" />
+        <geometry>
+          <cylinder radius="${robot_thickness/2}" length="${robot_thickness}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0.05" />
+        <mass value="1.0e-1" />
+        <inertia ixx="5e-5" ixy="0" ixz="0" iyy="5e-5" iyz="0" izz="1e-5" />
+      </inertial>
+    </link>
+
+    <!-- joint4 -->
+    <joint name="${prefix}right_joint4" type="revolute">
+      <parent link="${prefix}right_link3" />
+      <child link="${prefix}right_link4" />
+      <origin xyz="0 0 ${-robot_thickness/2}" rpy="0 0 0" />
+      <axis xyz="1 0 0" />
+      <limit velocity="4.8" effort="1000" lower="0" upper="${pi}" />
+      <dynamics damping="0.1" />
+    </joint>
+    
+    <!-- link4 -->
+    <link name="${prefix}right_link4" >
+      <visual>
+        <origin xyz="0 0 ${-robot_thickness/2 - arm2_height/2}" rpy="0 0 0" />
+        <geometry>
+          <box size="${robot_thickness} ${robot_thickness} ${arm2_height}" />
+        </geometry>
+        <material name="grey">
+          <color rgba="0.2 0.2 0.2 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 ${-robot_thickness/2 - arm2_height/2}" rpy="0 0 0" />
+        <geometry>
+          <box size="${robot_thickness} ${robot_thickness} ${arm2_height}" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0.05" />
+        <mass value="8.0e-2" />
+        <inertia ixx="4e-5" ixy="0" ixz="0" iyy="4e-5" iyz="0" izz="8e-6" />
+      </inertial>
+    </link>
+
+     <!-- joint5 -->
+    <joint name="${prefix}right_joint5" type="revolute">
+      <parent link="${prefix}right_link4" />
+      <child link="${prefix}right_link5" />
+      <origin xyz="0 0 ${-arm2_height - robot_thickness/2}" rpy="0 0 0" />
+      <axis xyz="0 0 -1" />
+      <limit velocity="4.8" effort="1000" lower="${-pi/2}" upper="${pi/2}" />
+      <dynamics damping="0.1" />
+    </joint>
+
+    <!-- link5 -->
+    <link name="${prefix}right_link5" >
+      <visual>
+        <origin xyz="0 0 ${-robot_thickness/2}" rpy="${pi/2} 0 ${pi/2}" />
+        <geometry>
+          <cylinder radius="${robot_thickness/2}" length="${robot_thickness}"/>
+        </geometry>
+        <material name="grey">
+          <color rgba="0.2 0.2 0.2 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 ${-robot_thickness/2}" rpy="${pi/2} 0 ${pi/2}" />
+        <geometry>
+          <cylinder radius="${robot_thickness/2}" length="${robot_thickness}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0.05" />
+        <mass value="1.0e-1" />
+        <inertia ixx="5e-5" ixy="0" ixz="0" iyy="5e-5" iyz="0" izz="1e-5" />
+      </inertial>
+    </link>
+
+    <!-- joint6 -->
+    <joint name="${prefix}right_joint6" type="revolute">
+      <parent link="${prefix}right_link5" />
+      <child link="${prefix}right_link6" />
+      <origin xyz="0 0 ${-robot_thickness/2}" rpy="0 0 0" />
+      <axis xyz="1 0 0" />
+      <limit velocity="4.8" effort="1000" lower="${-pi/2}" upper="${pi/2}" />
+      <dynamics damping="0.1" />
+    </joint>
+    
+    <!-- link6 -->
+    <link name="${prefix}right_link6" >
+      <visual>
+        <origin xyz="0 0 ${-robot_thickness/2 - gripper_height/2}" rpy="0 0 0" />
+        <geometry>
+          <box size="${robot_thickness} ${robot_thickness} ${gripper_height}" />
+        </geometry>
+        <material name="grey">
+          <color rgba="0.2 0.2 0.2 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 ${-robot_thickness/2 - gripper_height/2}" rpy="0 0 0" />
+        <geometry>
+          <box size="${robot_thickness} ${robot_thickness} ${gripper_height}" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0.05" />
+        <mass value="8.0e-2" />
+        <inertia ixx="4e-5" ixy="0" ixz="0" iyy="4e-5" iyz="0" izz="8e-6" />
+      </inertial>
+    </link>
+
+
+    <!-- left arm -->
+    <!-- joint1 -->
+    <joint name="${prefix}left_joint1" type="revolute">
+      <parent link="${prefix}link0" />
+      <child link="${prefix}left_link1" />
+      <origin xyz="${-body_width/2} 0 ${body_height - robot_thickness/2}" rpy="0 0 0" />
+      <axis xyz="1 0 0" />
+      <limit velocity="4.8" effort="1000" lower="${-pi}" upper="${pi}" />
+      <dynamics damping="0.05" />
+    </joint>
+
+    <!-- link1 -->
+    <link name="${prefix}left_link1" >
+      <visual>
+        <origin xyz="${-robot_thickness/2} 0 0" rpy="${pi/2} 0 0" />
+        <geometry>
+          <cylinder radius="${robot_thickness/2}" length="${robot_thickness}"/>
+        </geometry>
+        <material name="grey">
+          <color rgba="0.2 0.2 0.2 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="${-robot_thickness/2} 0 0" rpy="${pi/2} 0 0" />
+        <geometry>
+          <cylinder radius="${robot_thickness/2}" length="${robot_thickness}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0.05" />
+        <mass value="1.0e-1" />
+        <inertia ixx="5e-5" ixy="0" ixz="0" iyy="5e-5" iyz="0" izz="1e-5" />
+      </inertial>
+    </link>
+
+    <!-- joint2 -->
+    <joint name="${prefix}left_joint2" type="revolute">
+      <parent link="${prefix}left_link1" />
+      <child link="${prefix}left_link2" />
+      <origin xyz="${-robot_thickness/2} 0 0" rpy="0 0 0" />
+      <axis xyz="0 1 0" />
+      <limit velocity="4.8" effort="1000" lower="${-pi/2}" upper="${pi}" />
+      <dynamics damping="0.1" />
+    </joint>
+
+    <!-- link2 -->
+    <link name="${prefix}left_link2" >
+      <visual>
+        <origin xyz="0 0 ${-robot_thickness/2 - arm1_height/2}" rpy="0 0 0" />
+        <geometry>
+          <box size="${robot_thickness} ${robot_thickness} ${arm1_height}" />
+        </geometry>
+        <material name="grey">
+          <color rgba="0.2 0.2 0.2 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 ${-robot_thickness/2 - arm1_height/2}" rpy="0 0 0" />
+        <geometry>
+          <box size="${robot_thickness} ${robot_thickness} ${arm1_height}" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0.05" />
+        <mass value="8.0e-2" />
+        <inertia ixx="4e-5" ixy="0" ixz="0" iyy="4e-5" iyz="0" izz="8e-6" />
+      </inertial>
+    </link>
+
+    <!-- joint3 -->
+    <joint name="${prefix}left_joint3" type="revolute">
+      <parent link="${prefix}left_link2" />
+      <child link="${prefix}left_link3" />
+      <origin xyz="0 0 ${-arm1_height - robot_thickness/2}" rpy="0 0 0" />
+      <axis xyz="0 0 -1" />
+      <limit velocity="4.8" effort="1000" lower="${-pi/2}" upper="${pi/2}" />
+      <dynamics damping="0.1" />
+    </joint>
+
+    <!-- link3 -->
+    <link name="${prefix}left_link3" >
+      <visual>
+        <origin xyz="0 0 ${-robot_thickness/2}" rpy="${pi/2} 0 ${pi/2}" />
+        <geometry>
+          <cylinder radius="${robot_thickness/2}" length="${robot_thickness}"/>
+        </geometry>
+        <material name="grey">
+          <color rgba="0.2 0.2 0.2 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 ${-robot_thickness/2}" rpy="${pi/2} 0 ${pi/2}" />
+        <geometry>
+          <cylinder radius="${robot_thickness/2}" length="${robot_thickness}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0.05" />
+        <mass value="1.0e-1" />
+        <inertia ixx="5e-5" ixy="0" ixz="0" iyy="5e-5" iyz="0" izz="1e-5" />
+      </inertial>
+    </link>
+
+    <!-- joint4 -->
+    <joint name="${prefix}left_joint4" type="revolute">
+      <parent link="${prefix}left_link3" />
+      <child link="${prefix}left_link4" />
+      <origin xyz="0 0 ${-robot_thickness/2}" rpy="0 0 0" />
+      <axis xyz="1 0 0" />
+      <limit velocity="4.8" effort="1000" lower="0" upper="${pi}" />
+      <dynamics damping="0.1" />
+    </joint>
+    
+    <!-- link4 -->
+    <link name="${prefix}left_link4" >
+      <visual>
+        <origin xyz="0 0 ${-robot_thickness/2 - arm2_height/2}" rpy="0 0 0" />
+        <geometry>
+          <box size="${robot_thickness} ${robot_thickness} ${arm2_height}" />
+        </geometry>
+        <material name="grey">
+          <color rgba="0.2 0.2 0.2 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 ${-robot_thickness/2 - arm2_height/2}" rpy="0 0 0" />
+        <geometry>
+          <box size="${robot_thickness} ${robot_thickness} ${arm2_height}" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0.05" />
+        <mass value="8.0e-2" />
+        <inertia ixx="4e-5" ixy="0" ixz="0" iyy="4e-5" iyz="0" izz="8e-6" />
+      </inertial>
+    </link>
+
+     <!-- joint5 -->
+    <joint name="${prefix}left_joint5" type="revolute">
+      <parent link="${prefix}left_link4" />
+      <child link="${prefix}left_link5" />
+      <origin xyz="0 0 ${-arm2_height - robot_thickness/2}" rpy="0 0 0" />
+      <axis xyz="0 0 -1" />
+      <limit velocity="4.8" effort="1000" lower="${-pi/2}" upper="${pi/2}" />
+      <dynamics damping="0.1" />
+    </joint>
+
+    <!-- link5 -->
+    <link name="${prefix}left_link5" >
+      <visual>
+        <origin xyz="0 0 ${-robot_thickness/2}" rpy="${pi/2} 0 ${pi/2}" />
+        <geometry>
+          <cylinder radius="${robot_thickness/2}" length="${robot_thickness}"/>
+        </geometry>
+        <material name="grey">
+          <color rgba="0.2 0.2 0.2 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 ${-robot_thickness/2}" rpy="${pi/2} 0 ${pi/2}" />
+        <geometry>
+          <cylinder radius="${robot_thickness/2}" length="${robot_thickness}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0.05" />
+        <mass value="1.0e-1" />
+        <inertia ixx="5e-5" ixy="0" ixz="0" iyy="5e-5" iyz="0" izz="1e-5" />
+      </inertial>
+    </link>
+
+    <!-- joint6 -->
+    <joint name="${prefix}left_joint6" type="revolute">
+      <parent link="${prefix}left_link5" />
+      <child link="${prefix}left_link6" />
+      <origin xyz="0 0 ${-robot_thickness/2}" rpy="0 0 0" />
+      <axis xyz="1 0 0" />
+      <limit velocity="4.8" effort="1000" lower="${-pi/2}" upper="${pi/2}" />
+      <dynamics damping="0.1" />
+    </joint>
+    
+    <!-- link6 -->
+    <link name="${prefix}left_link6" >
+      <visual>
+        <origin xyz="0 0 ${-robot_thickness/2 - gripper_height/2}" rpy="0 0 0" />
+        <geometry>
+          <box size="${robot_thickness} ${robot_thickness} ${gripper_height}" />
+        </geometry>
+        <material name="grey">
+          <color rgba="0.2 0.2 0.2 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 ${-robot_thickness/2 - gripper_height/2}" rpy="0 0 0" />
+        <geometry>
+          <box size="${robot_thickness} ${robot_thickness} ${gripper_height}" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0.05" />
+        <mass value="8.0e-2" />
+        <inertia ixx="4e-5" ixy="0" ixz="0" iyy="4e-5" iyz="0" izz="8e-6" />
+      </inertial>
+    </link>
+
+
+    <!-- neck -->
+    <!-- joint1 -->
+    <joint name="${prefix}neck_joint1" type="revolute">
+      <parent link="${prefix}link0" />
+      <child link="${prefix}neck_link1" />
+      <origin xyz="0 0 ${body_height}" rpy="0 0 0" />
+      <axis xyz="1 0 0" />
+      <limit velocity="4.8" effort="1000" lower="${-pi/2}" upper="${pi/2}" />
+      <dynamics damping="0.1" />
+    </joint>
+    <!-- link1 -->
+    <link name="${prefix}neck_link1" >
+      <visual>
+        <origin xyz="0 0 ${robot_thickness/2}" rpy="0 0 0" />
+        <geometry>
+          <cylinder radius="${robot_thickness/2}" length="${robot_thickness}"/>
+        </geometry>
+        <material name="grey">
+          <color rgba="0.2 0.2 0.2 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 ${robot_thickness/2}" rpy="0 0 0" />
+        <geometry>
+          <cylinder radius="${robot_thickness/2}" length="${robot_thickness}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0.05" />
+        <mass value="1.0e-1" />
+        <inertia ixx="5e-5" ixy="0" ixz="0" iyy="5e-5" iyz="0" izz="1e-5" />
+      </inertial>
+    </link>
+
+    <!-- joint2 -->
+    <joint name="${prefix}neck_joint2" type="revolute">
+      <parent link="${prefix}neck_link1" />
+      <child link="${prefix}neck_link2" />
+      <origin xyz="0 0 ${robot_thickness}" rpy="0 0 0" />
+      <axis xyz="0 0 1" />
+      <limit velocity="4.8" effort="1000" lower="${-pi/2}" upper="${pi/2}" />
+      <dynamics damping="0.1" />
+    </joint>
+    <!-- link2 -->
+    <link name="${prefix}neck_link2" >
+      <visual>
+        <origin xyz="0 0 ${robot_thickness/2}" rpy="${pi/2} 0 ${pi/2}" />
+        <geometry>
+          <cylinder radius="${robot_thickness/2}" length="${robot_thickness}"/>
+        </geometry>
+        <material name="grey">
+          <color rgba="0.2 0.2 0.2 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 ${-robot_thickness/2}" rpy="${pi/2} 0 ${pi/2}" />
+        <geometry>
+          <cylinder radius="${robot_thickness/2}" length="${robot_thickness}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0.05" />
+        <mass value="1.0e-1" />
+        <inertia ixx="5e-5" ixy="0" ixz="0" iyy="5e-5" iyz="0" izz="1e-5" />
+      </inertial>
+    </link>
+
 
   </xacro:macro>
 </robot>

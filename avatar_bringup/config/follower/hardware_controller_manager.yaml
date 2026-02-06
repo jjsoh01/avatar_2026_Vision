@@ -13,8 +13,22 @@
   arm_controller:
     ros__parameters:
       joints:
-        - joint1
-        - joint2
+        - right_joint1
+        - right_joint2
+        - right_joint3
+        - right_joint4
+        - right_joint5
+        - right_joint6
+
+        - left_joint1
+        - left_joint2
+        - left_joint3
+        - left_joint4
+        - left_joint5
+        - left_joint6
+
+        - neck_joint1
+        - neck_joint2
 
       interface_name: position
 
