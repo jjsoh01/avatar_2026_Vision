@@ -1,4 +1,6 @@
 from setuptools import find_packages, setup
+import os
+from glob import glob
 
 package_name = 'avatar_vision'
 
@@ -10,22 +12,24 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        (os.path.join('share', package_name, 'launch'),
+            glob('launch/*.py')),
     ],
-    install_requires=['setuptools'],
+    install_requires=[
+        'setuptools',
+        'numpy<2.0',          # ✅ mediapipe 안전선
+        'opencv-python',      # subscriber / publisher 공용
+    ],
     zip_safe=True,
     maintainer='dongryun',
     maintainer_email='storm5030@gmail.com',
-    description='TODO: Package description',
-    license='TODO: License declaration',
-    extras_require={
-        'test': [
-            'pytest',
-        ],
-    },
+    description='Camera-agnostic face perception (RealSense / Webcam)',
+    license='Apache License 2.0',
+    tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'rgb_subscriber = avatar_vision.rgb_sub:main',
-            'realsense_rgb_publisher = avatar_vision.camera_test:main',
+            'realsense_face_publisher = avatar_vision.realsense_face_publisher:main',
+            'realsense_rgb_subscriber = avatar_vision.realsense_rgb_subscriber:main',
         ],
     },
 )
