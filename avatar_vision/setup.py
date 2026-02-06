@@ -32,6 +32,7 @@ setup(
             'webcam_publisher = avatar_vision.webcam_publisher:main',
             'yolo_deepsort_subscriber = avatar_vision.webcam_pub_and_tracker:main',
             'det_cxcy_node = avatar_vision.det_cxcy_node:main',
+            'head_control_node = avatar_vision.head_control_node:main',
         ],
     },
 )
