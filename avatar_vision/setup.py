@@ -28,8 +28,18 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+<<<<<<< HEAD
             'realsense_face_publisher = avatar_vision.realsense_face_publisher:main',
             'realsense_rgb_subscriber = avatar_vision.realsense_rgb_subscriber:main',
+=======
+            'rgb_subscriber = avatar_vision.rgb_sub:main',
+            'realsense_rgb_publisher = avatar_vision.camera_test:main',
+            'hand_node = avatar_vision.hand_node:main',
+            'tracker_node = avatar_vision.tracker_node:main',
+            'webcam_publisher = avatar_vision.webcam_publisher:main',
+            'yolo_deepsort_subscriber = avatar_vision.webcam_pub_and_tracker:main',
+            'det_cxcy_node = avatar_vision.det_cxcy_node:main',
+>>>>>>> d485cd7bb458faa5e916b011bfee47acb4b780ee
         ],
     },
 )
