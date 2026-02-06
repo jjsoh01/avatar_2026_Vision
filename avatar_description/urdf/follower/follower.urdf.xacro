@@ -22,7 +22,7 @@
 
   <!-- 2-DOF에는 end_effector 고정조인트가 필요 없으면 제거 가능.
        샘플 구조를 유지하기 위해 남겨두되, link2에 고정한다고 가정 -->
-  <joint name="$(arg prefix)end_effector_joint" type="fixed">
+  <!-- <joint name="$(arg prefix)end_effector_joint" type="fixed">
     <parent link="$(arg prefix)link2"/>
     <child link="$(arg prefix)end_effector_link"/>
     <origin xyz="0.10 0.0 0.0" rpy="0 0 0"/>
@@ -38,7 +38,7 @@
         <color rgba="1.0 0.0 0.0 1"/>
       </material>
     </visual>
-  </link>
+  </link> -->
 
   <xacro:follower prefix="$(arg prefix)" />
   <xacro:follower_gazebo prefix="$(arg prefix)" />
@@ -48,11 +48,5 @@
     use_mock_hardware="$(arg use_mock_hardware)"
     mock_sensor_commands="$(arg mock_sensor_commands)"
     port_name="$(arg port_name)"/>
-
-  <gazebo>
-    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
-      <parameters>$(find avatar_bringup)/config/$(arg config_type)/hardware_controller_manager.yaml</parameters>
-    </plugin>
-  </gazebo>
 
 </robot>

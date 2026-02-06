@@ -27,6 +27,11 @@ setup(
             'rgb_subscriber = avatar_vision.rgb_sub:main',
             'realsense_rgb_publisher = avatar_vision.camera_test:main',
             'webcam_pub = avatar_vision.webcam_pub:main',
+            'hand_node = avatar_vision.hand_node:main',
+            'tracker_node = avatar_vision.tracker_node:main',
+            'webcam_publisher = avatar_vision.webcam_publisher:main',
+            'yolo_deepsort_subscriber = avatar_vision.webcam_pub_and_tracker:main',
+            'det_cxcy_node = avatar_vision.det_cxcy_node:main',
         ],
     },
 )

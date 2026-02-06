@@ -29,11 +29,30 @@
     </xacro:macro>
 
     <xacro:Link reference="${prefix}link0"/>
-    <xacro:Link reference="${prefix}link1"/>
-    <xacro:Link reference="${prefix}link2"/>
+    <xacro:Link reference="${prefix}right_link1"/>
+    <xacro:Link reference="${prefix}right_link2"/>
+    <xacro:Link reference="${prefix}right_link3"/>
+    <xacro:Link reference="${prefix}right_link4"/>
+    <xacro:Link reference="${prefix}right_link5"/>
+    <xacro:Link reference="${prefix}right_link6"/>
 
-    <xacro:SimpleTransmission trans="${prefix}trans1" joint="${prefix}joint1" actuator="${prefix}actuator1" />
-    <xacro:SimpleTransmission trans="${prefix}trans2" joint="${prefix}joint2" actuator="${prefix}actuator2" />
+    <xacro:Link reference="${prefix}left_link1"/>
+    <xacro:Link reference="${prefix}left_link2"/>
+    <xacro:Link reference="${prefix}left_link3"/>
+    <xacro:Link reference="${prefix}left_link4"/>
+    <xacro:Link reference="${prefix}left_link5"/>
+    <xacro:Link reference="${prefix}left_link6"/>
+
+    <xacro:Link reference="${prefix}neck_link1"/>
+    <xacro:Link reference="${prefix}neck_link2"/>
+
+    <xacro:SimpleTransmission trans="${prefix}trans1" joint="${prefix}right_joint1" actuator="${prefix}actuator1" />
+    <xacro:SimpleTransmission trans="${prefix}trans2" joint="${prefix}right_joint2" actuator="${prefix}actuator2" />
+    <xacro:SimpleTransmission trans="${prefix}trans3" joint="${prefix}right_joint2" actuator="${prefix}actuator3" />
+    <xacro:SimpleTransmission trans="${prefix}trans4" joint="${prefix}right_joint2" actuator="${prefix}actuator4" />
+    <xacro:SimpleTransmission trans="${prefix}trans5" joint="${prefix}right_joint2" actuator="${prefix}actuator5" />
+    <xacro:SimpleTransmission trans="${prefix}trans6" joint="${prefix}right_joint2" actuator="${prefix}actuator6" />
+
 
   </xacro:macro>
 

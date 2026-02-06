@@ -29,6 +29,7 @@ setup(
     entry_points={
         'console_scripts': [
             'joint_trajectory_executor = avatar_bringup.joint_trajectory_executor:main',
+            'traj_to_jointstate = avatar_bringup.traj_to_jointstate:main',
         ],
     },
 )

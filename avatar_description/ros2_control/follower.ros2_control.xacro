@@ -25,17 +25,41 @@
 
             <param name="dynamixel_model_folder">/param/dxl_model</param>
 
-            <param name="number_of_joints">2</param>
-            <param name="number_of_transmissions">2</param>
+            <param name="number_of_joints">14</param>
+            <param name="number_of_transmissions">14</param>
             <!-- 필수: transmission <-> joint 변환 매트릭스 (2축, 1:1 항등) -->
             <param name="transmission_to_joint_matrix">
-                1, 0,
-                0, 1
+                1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1
             </param>
 
             <param name="joint_to_transmission_matrix">
-                1, 0,
-                0, 1
+                1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1
             </param>
 
             <param name="disable_torque_at_init">true</param>
@@ -48,60 +72,388 @@
         </hardware>
       </xacro:unless>
 
-      <!-- joint 2개만: joint에 ID 매핑을 넣어줌(가장 일반적인 방식) -->
-      <joint name="${prefix}joint1">
+      <!-- 오른쪽 팔 -->
+      <joint name="${prefix}right_joint1">
         <command_interface name="position"/>
         <state_interface name="position"/>
         <state_interface name="velocity"/>
         <param name="ID">11</param>
       </joint>
 
-      <joint name="${prefix}joint2">
+      <joint name="${prefix}right_joint2">
         <command_interface name="position"/>
         <state_interface name="position"/>
         <state_interface name="velocity"/>
         <param name="ID">12</param>
       </joint>
 
-      <!-- gpio: ID 11, 12 유지 -->
-      <gpio name="dxl11">
-        <param name="type">dxl</param>
-        <param name="ID">11</param>
-        <command_interface name="Goal Position"/>
-        <state_interface name="Present Position"/>
-        <state_interface name="Present Velocity"/>
-        <param name="Drive Mode">4</param>
-        <param name="Operating Mode">4</param>
-        <param name="Return Delay Time">0</param>
-        <param name="Min Position Limit">1024</param>
-        <param name="Max Position Limit">3140</param>
-        <param name="Position P Gain">1000</param>
-        <param name="Position I Gain">0</param>
-        <param name="Position D Gain">1000</param>
-        <param name="Profile Velocity">50</param>
-        <param name="Profile Acceleration">25</param>
-      </gpio>
+      <joint name="${prefix}right_joint3">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <param name="ID">13</param>
+      </joint>
 
-      <gpio name="dxl12">
-        <param name="type">dxl</param>
-        <param name="ID">12</param>
-        <command_interface name="Goal Position"/>
-        <state_interface name="Present Position"/>
-        <state_interface name="Present Velocity"/>
-        <param name="Drive Mode">4</param>
-        <param name="Operating Mode">4</param>
-        <param name="Return Delay Time">0</param>
-        <param name="Min Position Limit">1024</param>
-        <param name="Max Position Limit">3140</param>
-        <param name="Min Position Limit">830</param>
-        <param name="Max Position Limit">3129</param>
-        <param name="Position P Gain">1000</param>
-        <param name="Position I Gain">0</param>
-        <param name="Position D Gain">1000</param>
-        <param name="Profile Velocity">50</param>
-        <param name="Profile Acceleration">25</param>
-      </gpio>
+      <joint name="${prefix}right_joint4">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <param name="ID">14</param>
+      </joint>
 
+      <joint name="${prefix}right_joint5">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <param name="ID">15</param>
+      </joint>
+
+      <joint name="${prefix}right_joint6">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <param name="ID">16</param>
+      </joint>
+
+      <!-- 왼쪽 팔 -->
+      <joint name="${prefix}left_joint1">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <param name="ID">21</param>
+      </joint>
+
+      <joint name="${prefix}left_joint2">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <param name="ID">22</param>
+      </joint>
+
+      <joint name="${prefix}left_joint3">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <param name="ID">23</param>
+      </joint>
+
+      <joint name="${prefix}left_joint4">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <param name="ID">24</param>
+      </joint>
+
+      <joint name="${prefix}left_joint5">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <param name="ID">25</param>
+      </joint>
+
+      <joint name="${prefix}left_joint6">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <param name="ID">26</param>
+      </joint>
+
+
+      <!-- neck joint -->
+      <joint name="${prefix}neck_joint1">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <param name="ID">31</param>
+      </joint>
+      <joint name="${prefix}neck_joint2">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <param name="ID">32</param>
+      </joint>
+
+      <xacro:unless value="$(arg use_sim)">
+
+        <!-- gpio: ID 11, 12 유지 -->
+        <gpio name="dxl11">
+          <param name="type">dxl</param>
+          <param name="ID">11</param>
+          <command_interface name="Goal Position"/>
+          <state_interface name="Present Position"/>
+          <state_interface name="Present Velocity"/>
+          <param name="Drive Mode">4</param>
+          <param name="Operating Mode">4</param>
+          <param name="Return Delay Time">0</param>
+          <param name="Min Position Limit">1024</param>
+          <param name="Max Position Limit">3140</param>
+          <param name="Position P Gain">1000</param>
+          <param name="Position I Gain">0</param>
+          <param name="Position D Gain">1000</param>
+          <param name="Profile Velocity">50</param>
+          <param name="Profile Acceleration">25</param>
+        </gpio>
+
+        <gpio name="dxl12">
+          <param name="type">dxl</param>
+          <param name="ID">12</param>
+          <command_interface name="Goal Position"/>
+          <state_interface name="Present Position"/>
+          <state_interface name="Present Velocity"/>
+          <param name="Drive Mode">4</param>
+          <param name="Operating Mode">4</param>
+          <param name="Return Delay Time">0</param>
+          <param name="Min Position Limit">1024</param>
+          <param name="Max Position Limit">3140</param>
+          <param name="Min Position Limit">830</param>
+          <param name="Max Position Limit">3129</param>
+          <param name="Position P Gain">1000</param>
+          <param name="Position I Gain">0</param>
+          <param name="Position D Gain">1000</param>
+          <param name="Profile Velocity">50</param>
+          <param name="Profile Acceleration">25</param>
+        </gpio>
+
+        <gpio name="dxl13">
+          <param name="type">dxl</param>
+          <param name="ID">13</param>
+          <command_interface name="Goal Position"/>
+          <state_interface name="Present Position"/>
+          <state_interface name="Present Velocity"/>
+          <param name="Drive Mode">4</param>
+          <param name="Operating Mode">4</param>
+          <param name="Return Delay Time">0</param>
+          <param name="Min Position Limit">1024</param>
+          <param name="Max Position Limit">3140</param>
+          <param name="Min Position Limit">830</param>
+          <param name="Max Position Limit">3129</param>
+          <param name="Position P Gain">1000</param>
+          <param name="Position I Gain">0</param>
+          <param name="Position D Gain">1000</param>
+          <param name="Profile Velocity">50</param>
+          <param name="Profile Acceleration">25</param>
+        </gpio>
+
+        <gpio name="dxl14">
+          <param name="type">dxl</param>
+          <param name="ID">14</param>
+          <command_interface name="Goal Position"/>
+          <state_interface name="Present Position"/>
+          <state_interface name="Present Velocity"/>
+          <param name="Drive Mode">4</param>
+          <param name="Operating Mode">4</param>
+          <param name="Return Delay Time">0</param>
+          <param name="Min Position Limit">1024</param>
+          <param name="Max Position Limit">3140</param>
+          <param name="Min Position Limit">830</param>
+          <param name="Max Position Limit">3129</param>
+          <param name="Position P Gain">1000</param>
+          <param name="Position I Gain">0</param>
+          <param name="Position D Gain">1000</param>
+          <param name="Profile Velocity">50</param>
+          <param name="Profile Acceleration">25</param>
+        </gpio>
+
+        <gpio name="dxl15">
+          <param name="type">dxl</param>
+          <param name="ID">15</param>
+          <command_interface name="Goal Position"/>
+          <state_interface name="Present Position"/>
+          <state_interface name="Present Velocity"/>
+          <param name="Drive Mode">4</param>
+          <param name="Operating Mode">4</param>
+          <param name="Return Delay Time">0</param>
+          <param name="Min Position Limit">1024</param>
+          <param name="Max Position Limit">3140</param>
+          <param name="Min Position Limit">830</param>
+          <param name="Max Position Limit">3129</param>
+          <param name="Position P Gain">1000</param>
+          <param name="Position I Gain">0</param>
+          <param name="Position D Gain">1000</param>
+          <param name="Profile Velocity">50</param>
+          <param name="Profile Acceleration">25</param>
+        </gpio>
+
+        <gpio name="dxl16">
+          <param name="type">dxl</param>
+          <param name="ID">16</param>
+          <command_interface name="Goal Position"/>
+          <state_interface name="Present Position"/>
+          <state_interface name="Present Velocity"/>
+          <param name="Drive Mode">4</param>
+          <param name="Operating Mode">4</param>
+          <param name="Return Delay Time">0</param>
+          <param name="Min Position Limit">1024</param>
+          <param name="Max Position Limit">3140</param>
+          <param name="Min Position Limit">830</param>
+          <param name="Max Position Limit">3129</param>
+          <param name="Position P Gain">1000</param>
+          <param name="Position I Gain">0</param>
+          <param name="Position D Gain">1000</param>
+          <param name="Profile Velocity">50</param>
+          <param name="Profile Acceleration">25</param>
+        </gpio>
+
+        <gpio name="dxl21">
+          <param name="type">dxl</param>
+          <param name="ID">21</param>
+          <command_interface name="Goal Position"/>
+          <state_interface name="Present Position"/>
+          <state_interface name="Present Velocity"/>
+          <param name="Drive Mode">4</param>
+          <param name="Operating Mode">4</param>
+          <param name="Return Delay Time">0</param>
+          <param name="Min Position Limit">1024</param>
+          <param name="Max Position Limit">3140</param>
+          <param name="Min Position Limit">830</param>
+          <param name="Max Position Limit">3129</param>
+          <param name="Position P Gain">1000</param>
+          <param name="Position I Gain">0</param>
+          <param name="Position D Gain">1000</param>
+          <param name="Profile Velocity">50</param>
+          <param name="Profile Acceleration">25</param>
+        </gpio>
+        
+        <gpio name="dxl22">
+          <param name="type">dxl</param>
+          <param name="ID">22</param>
+          <command_interface name="Goal Position"/>
+          <state_interface name="Present Position"/>
+          <state_interface name="Present Velocity"/>
+          <param name="Drive Mode">4</param>
+          <param name="Operating Mode">4</param>
+          <param name="Return Delay Time">0</param>
+          <param name="Min Position Limit">1024</param>
+          <param name="Max Position Limit">3140</param>
+          <param name="Min Position Limit">830</param>
+          <param name="Max Position Limit">3129</param>
+          <param name="Position P Gain">1000</param>
+          <param name="Position I Gain">0</param>
+          <param name="Position D Gain">1000</param>
+          <param name="Profile Velocity">50</param>
+          <param name="Profile Acceleration">25</param>
+        </gpio>
+
+        <gpio name="dxl23">
+          <param name="type">dxl</param>
+          <param name="ID">23</param>
+          <command_interface name="Goal Position"/>
+          <state_interface name="Present Position"/>
+          <state_interface name="Present Velocity"/>
+          <param name="Drive Mode">4</param>
+          <param name="Operating Mode">4</param>
+          <param name="Return Delay Time">0</param>
+          <param name="Min Position Limit">1024</param>
+          <param name="Max Position Limit">3140</param>
+          <param name="Min Position Limit">830</param>
+          <param name="Max Position Limit">3129</param>
+          <param name="Position P Gain">1000</param>
+          <param name="Position I Gain">0</param>
+          <param name="Position D Gain">1000</param>
+          <param name="Profile Velocity">50</param>
+          <param name="Profile Acceleration">25</param>
+        </gpio>
+
+        <gpio name="dxl24">
+          <param name="type">dxl</param>
+          <param name="ID">24</param>
+          <command_interface name="Goal Position"/>
+          <state_interface name="Present Position"/>
+          <state_interface name="Present Velocity"/>
+          <param name="Drive Mode">4</param>
+          <param name="Operating Mode">4</param>
+          <param name="Return Delay Time">0</param>
+          <param name="Min Position Limit">1024</param>
+          <param name="Max Position Limit">3140</param>
+          <param name="Min Position Limit">830</param>
+          <param name="Max Position Limit">3129</param>
+          <param name="Position P Gain">1000</param>
+          <param name="Position I Gain">0</param>
+          <param name="Position D Gain">1000</param>
+          <param name="Profile Velocity">50</param>
+          <param name="Profile Acceleration">25</param>
+        </gpio>
+
+        <gpio name="dxl25">
+          <param name="type">dxl</param>
+          <param name="ID">25</param>
+          <command_interface name="Goal Position"/>
+          <state_interface name="Present Position"/>
+          <state_interface name="Present Velocity"/>
+          <param name="Drive Mode">4</param>
+          <param name="Operating Mode">4</param>
+          <param name="Return Delay Time">0</param>
+          <param name="Min Position Limit">1024</param>
+          <param name="Max Position Limit">3140</param>
+          <param name="Min Position Limit">830</param>
+          <param name="Max Position Limit">3129</param>
+          <param name="Position P Gain">1000</param>
+          <param name="Position I Gain">0</param>
+          <param name="Position D Gain">1000</param>
+          <param name="Profile Velocity">50</param>
+          <param name="Profile Acceleration">25</param>
+        </gpio>
+
+        <gpio name="dxl26">
+          <param name="type">dxl</param>
+          <param name="ID">26</param>
+          <command_interface name="Goal Position"/>
+          <state_interface name="Present Position"/>
+          <state_interface name="Present Velocity"/>
+          <param name="Drive Mode">4</param>
+          <param name="Operating Mode">4</param>
+          <param name="Return Delay Time">0</param>
+          <param name="Min Position Limit">1024</param>
+          <param name="Max Position Limit">3140</param>
+          <param name="Min Position Limit">830</param>
+          <param name="Max Position Limit">3129</param>
+          <param name="Position P Gain">1000</param>
+          <param name="Position I Gain">0</param>
+          <param name="Position D Gain">1000</param>
+          <param name="Profile Velocity">50</param>
+          <param name="Profile Acceleration">25</param>
+        </gpio>
+
+        <gpio name="dxl31">
+          <param name="type">dxl</param>
+          <param name="ID">31</param>
+          <command_interface name="Goal Position"/>
+          <state_interface name="Present Position"/>
+          <state_interface name="Present Velocity"/>
+          <param name="Drive Mode">4</param>
+          <param name="Operating Mode">4</param>
+          <param name="Return Delay Time">0</param>
+          <param name="Min Position Limit">1024</param>
+          <param name="Max Position Limit">3140</param>
+          <param name="Min Position Limit">830</param>
+          <param name="Max Position Limit">3129</param>
+          <param name="Position P Gain">1000</param>
+          <param name="Position I Gain">0</param>
+          <param name="Position D Gain">1000</param>
+          <param name="Profile Velocity">50</param>
+          <param name="Profile Acceleration">25</param>
+        </gpio>
+
+        <gpio name="dxl32">
+          <param name="type">dxl</param>
+          <param name="ID">32</param>
+          <command_interface name="Goal Position"/>
+          <state_interface name="Present Position"/>
+          <state_interface name="Present Velocity"/>
+          <param name="Drive Mode">4</param>
+          <param name="Operating Mode">4</param>
+          <param name="Return Delay Time">0</param>
+          <param name="Min Position Limit">1024</param>
+          <param name="Max Position Limit">3140</param>
+          <param name="Min Position Limit">830</param>
+          <param name="Max Position Limit">3129</param>
+          <param name="Position P Gain">1000</param>
+          <param name="Position I Gain">0</param>
+          <param name="Position D Gain">1000</param>
+          <param name="Profile Velocity">50</param>
+          <param name="Profile Acceleration">25</param>
+        </gpio>
+      </xacro:unless>
     </ros2_control>
   </xacro:macro>
 </robot>

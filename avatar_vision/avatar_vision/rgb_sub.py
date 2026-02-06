@@ -29,6 +29,7 @@ class RealSenseCompressedSubscriber(Node):
             # 영상 화면 띄우기
             cv2.imshow('Remote View (Compressed)', frame)
             cv2.waitKey(1)
+            self.get_logger().info('Received and displayed compressed image')
         else:
             self.get_logger().warning('Failed to decode image')
 
