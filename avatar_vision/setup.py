@@ -31,6 +31,8 @@ setup(
             'yolo_node = avatar_vision.yolo_node:main',
             'droidcam_publisher = my_camera_package.droidcam_pub:main',
             'gaze_subscriber = my_camera_package.gaze_sub:main',
+            'face_direction_node = avatar_vision.face_direction:main',
+            'face_attention_node = avatar_vision.face_attention:main'
         ],
     },
 )
