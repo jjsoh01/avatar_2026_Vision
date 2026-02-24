@@ -26,6 +26,9 @@
         <maxVel>1.0</maxVel>
         <minDepth>0.001</minDepth>
       </gazebo>
+      <gazebo>
+      <self_collide>true</self_collide>
+      </gazebo>
     </xacro:macro>
 
     <xacro:Link reference="base_link"/>
@@ -104,6 +107,8 @@
         </contact>
          
       </sensor>
+      <plugin filename="libignition-gazebo-touchplugin-system.so" 
+                name="ignition::gazebo::systems::TouchPlugin"/>
     </gazebo>
 
     <gazebo reference="${prefix}right_link1_1">
@@ -122,6 +127,8 @@
         </contact>
          
       </sensor>
+      <plugin filename="libignition-gazebo-touchplugin-system.so" 
+                name="ignition::gazebo::systems::TouchPlugin"/>
     </gazebo>
 
     <gazebo reference="${prefix}neck_link1_1">
@@ -140,6 +147,8 @@
         </contact>
          
       </sensor>
+      <plugin filename="libignition-gazebo-touchplugin-system.so" 
+                name="ignition::gazebo::systems::TouchPlugin"/>
     </gazebo>
 
     <gazebo reference="${prefix}neck_link2_1">
@@ -158,6 +167,8 @@
         </contact>
          
       </sensor>
+      <plugin filename="libignition-gazebo-touchplugin-system.so" 
+                name="ignition::gazebo::systems::TouchPlugin"/>
     </gazebo>
 
     <gazebo reference="${prefix}left_link2_1">
@@ -176,6 +187,8 @@
         </contact>
          
       </sensor>
+      <plugin filename="libignition-gazebo-touchplugin-system.so" 
+                name="ignition::gazebo::systems::TouchPlugin"/>
     </gazebo>
 
     <gazebo reference="${prefix}left_link3_1">
@@ -194,6 +207,8 @@
         </contact>
          
       </sensor>
+      <plugin filename="libignition-gazebo-touchplugin-system.so" 
+                name="ignition::gazebo::systems::TouchPlugin"/>
     </gazebo>
 
     <gazebo reference="${prefix}left_link4_1">
@@ -212,6 +227,8 @@
         </contact>
          
       </sensor>
+      <plugin filename="libignition-gazebo-touchplugin-system.so" 
+                name="ignition::gazebo::systems::TouchPlugin"/>
     </gazebo>
 
     <gazebo reference="${prefix}left_link5_1">
@@ -230,6 +247,8 @@
         </contact>
          
       </sensor>
+      <plugin filename="libignition-gazebo-touchplugin-system.so" 
+                name="ignition::gazebo::systems::TouchPlugin"/>
     </gazebo>
 
     <gazebo reference="${prefix}left_link6_1">
@@ -248,6 +267,8 @@
         </contact>
          
       </sensor>
+      <plugin filename="libignition-gazebo-touchplugin-system.so" 
+                name="ignition::gazebo::systems::TouchPlugin"/>
     </gazebo>
 
     <gazebo reference="${prefix}left_link_gripper_1">
@@ -265,6 +286,8 @@
           <collision>${prefix}left_link_gripper_1_collision</collision>
         </contact>
       </sensor>
+      <plugin filename="libignition-gazebo-touchplugin-system.so" 
+                name="ignition::gazebo::systems::TouchPlugin"/>
     </gazebo>
 
     <gazebo reference="${prefix}right_link2_1">
@@ -283,6 +306,8 @@
         </contact>
          
       </sensor>
+      <plugin filename="libignition-gazebo-touchplugin-system.so" 
+                name="ignition::gazebo::systems::TouchPlugin"/>
     </gazebo>
 
     <gazebo reference="${prefix}right_link3_1">
@@ -301,6 +326,8 @@
         </contact>
          
       </sensor>
+      <plugin filename="libignition-gazebo-touchplugin-system.so" 
+                name="ignition::gazebo::systems::TouchPlugin"/>
     </gazebo>
 
     <gazebo reference="${prefix}right_link4_1">
@@ -319,6 +346,8 @@
         </contact>
          
       </sensor>
+      <plugin filename="libignition-gazebo-touchplugin-system.so" 
+                name="ignition::gazebo::systems::TouchPlugin"/>
     </gazebo>
 
     <gazebo reference="${prefix}right_link5_1">
@@ -337,6 +366,8 @@
         </contact>
          
       </sensor>
+      <plugin filename="libignition-gazebo-touchplugin-system.so" 
+                name="ignition::gazebo::systems::TouchPlugin"/>
     </gazebo>
 
     <gazebo reference="${prefix}right_link6_1">
@@ -355,6 +386,8 @@
         </contact>
          
       </sensor>
+      <plugin filename="libignition-gazebo-touchplugin-system.so" 
+                name="ignition::gazebo::systems::TouchPlugin"/>
     </gazebo>
 
     <gazebo reference="${prefix}right_link_gripper_1">
@@ -372,6 +405,8 @@
           <collision>${prefix}right_link_gripper_1_collision</collision>
         </contact>
       </sensor>
+      <plugin filename="libignition-gazebo-touchplugin-system.so" 
+                name="ignition::gazebo::systems::TouchPlugin"/>
       
     </gazebo>
 

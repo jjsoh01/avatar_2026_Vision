@@ -79,6 +79,7 @@ class FollowerPassthroughDriver(Node):
             pitch = min_pitch * (pitch / abs(pitch))  
         if abs(yaw) > min_yaw:
             yaw = min_yaw * (yaw / abs(yaw))  
+      
         traj.points[0].positions = [pitch, yaw]
         traj.points[0].time_from_start = Duration(sec=0, nanosec=20_000_000)  # 0.02s (50 Hz)
         

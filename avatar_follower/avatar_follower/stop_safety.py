@@ -148,9 +148,10 @@ class SafetyStopNode(Node):
             if not self.is_stopped:
                 self.get_logger().warn('충돌 발생! 로봇 정지!')
                 self.stop_robot()
-                self.is_stopped = True
-        else:
-            self.is_stopped = False
+            else:
+                # 충돌이 없으면 다시 움직일 수 있는 상태로 두거나, 아무것도 안 함
+                # 중요한 건 '영구 정지' 상태에 빠지지 않게 하는 것
+                self.is_stopped = False
 
     def stop_robot(self):
         stop_msg = JointTrajectory()
