@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="leader" params="prefix">
+
+    <!-- <xacro:property name="meshes_file_direction" value="package://avatar_description/meshes/follower/" /> -->
+
+    <!-- link0 -->
+    <link name="${prefix}link0" >
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <!-- <mesh filename="${meshes_file_direction}/follower_01_base.stl" scale="0.001 0.001 0.001" /> -->
+        </geometry>
+        <material name="grey">
+          <color rgba="0.2 0.2 0.2 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <!-- <mesh filename="${meshes_file_direction}/follower_01_base.stl" scale="0.001 0.001 0.001" /> -->
+        </geometry>
+        <material name="grey">
+          <color rgba="0.2 0.2 0.2 1" />
+        </material>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0" />
+        <mass value="2.0e-1" />
+        <inertia ixx="1e-4" ixy="0" ixz="0" iyy="1e-4" iyz="0" izz="1e-4" />
+      </inertial>
+    </link>
+
+    <!-- joint1 -->
+    <joint name="${prefix}joint1" type="revolute">
+      <parent link="${prefix}link0" />
+      <child link="${prefix}link1" />
+      <origin xyz="0 0 0.02" rpy="0 0 0" />
+      <axis xyz="0 0 1" />
+      <limit velocity="4.8" effort="1000" lower="${-pi*2.0}" upper="${pi*2.0}" />
+      <dynamics damping="0.05" />
+    </joint>
+
+    <!-- link1 -->
+    <link name="${prefix}link1" >
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <!-- <mesh filename="${meshes_file_direction}/follower_02_link1.stl" scale="0.001 0.001 0.001" /> -->
+        </geometry>
+        <material name="grey">
+          <color rgba="0.2 0.2 0.2 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <!-- <mesh filename="${meshes_file_direction}/follower_02_link1.stl" scale="0.001 0.001 0.001" /> -->
+        </geometry>
+        <material name="grey">
+          <color rgba="0.2 0.2 0.2 1" />
+        </material>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0.05" />
+        <mass value="1.0e-1" />
+        <inertia ixx="5e-5" ixy="0" ixz="0" iyy="5e-5" iyz="0" izz="1e-5" />
+      </inertial>
+    </link>
+
+    <!-- joint2 -->
+    <joint name="${prefix}joint2" type="revolute">
+      <parent link="${prefix}link1" />
+      <child link="${prefix}link2" />
+      <origin xyz="0 0 0.10" rpy="0 0 0" />
+      <axis xyz="0 1 0" />
+      <limit velocity="4.8" effort="1000" lower="${-pi*2.0}" upper="${pi*2.0}" />
+      <dynamics damping="0.1" />
+    </joint>
+
+    <!-- link2 -->
+    <link name="${prefix}link2" >
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <!-- <mesh filename="${meshes_file_direction}/follower_03_link2.stl" scale="0.001 0.001 0.001" /> -->
+        </geometry>
+        <material name="grey">
+          <color rgba="0.2 0.2 0.2 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <!-- <mesh filename="${meshes_file_direction}/follower_03_link2.stl" scale="0.001 0.001 0.001" /> -->
+        </geometry>
+        <material name="grey">
+          <color rgba="0.2 0.2 0.2 1" />
+        </material>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0.05" />
+        <mass value="8.0e-2" />
+        <inertia ixx="4e-5" ixy="0" ixz="0" iyy="4e-5" iyz="0" izz="8e-6" />
+      </inertial>
+    </link>
+
+  </xacro:macro>
+</robot>

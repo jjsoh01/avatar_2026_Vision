@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<robot name="leader" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:arg name="prefix" default="" />
+  <xacro:arg name="use_sim" default="false" />
+  <xacro:arg name="use_mock_hardware" default="false" />
+  <xacro:arg name="mock_sensor_commands" default="false" />
+  <xacro:arg name="config_type" default="leader" />
+  <xacro:arg name="ros2_control_type" default="leader" />
+  <xacro:arg name="port_name" default="/dev/ttyACM1" />
+
+  <xacro:include filename="$(find avatar_description)/gazebo/leader.gazebo.xacro" />
+  <xacro:include filename="$(find avatar_description)/urdf/leader/leader_arm.urdf.xacro" />
+  <xacro:include filename="$(find avatar_description)/ros2_control/$(arg ros2_control_type).ros2_control.xacro" />
+
+  <link name="world"/>
+
+  <joint name="$(arg prefix)world_fixed" type="fixed">
+    <parent link="world"/>
+    <child link="$(arg prefix)link0"/>
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- 2-DOF에는 end_effector 고정조인트가 필요 없으면 제거 가능.
+       샘플 구조를 유지하기 위해 남겨두되, link2에 고정한다고 가정 -->
+  <joint name="$(arg prefix)end_effector_joint" type="fixed">
+    <parent link="$(arg prefix)link2"/>
+    <child link="$(arg prefix)end_effector_link"/>
+    <origin xyz="0.10 0.0 0.0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="$(arg prefix)end_effector_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.01 0.01" />
+      </geometry>
+      <material name="red">
+        <color rgba="1.0 0.0 0.0 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <xacro:leader prefix="$(arg prefix)" />
+  <xacro:leader_gazebo prefix="$(arg prefix)" />
+
+  <xacro:leader_system
+    name="LeaderSystem" prefix="$(arg prefix)" use_sim="$(arg use_sim)"
+    use_mock_hardware="$(arg use_mock_hardware)"
+    mock_sensor_commands="$(arg mock_sensor_commands)"
+    port_name="$(arg port_name)"/>
+
+  <gazebo>
+    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>$(find avatar_bringup)/config/$(arg config_type)/hardware_controller_manager.yaml</parameters>
+    </plugin>
+  </gazebo>
+
+</robot>
